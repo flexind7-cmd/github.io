@@ -1,0 +1,29 @@
+
+import re
+
+service_map = {
+    80: "웹(HTTP)",
+    443: "보안웹(HTTPS)",
+    53: "도메인네임(DNS)",
+    22: "원격접속(SSH)"
+}
+
+traffic_logs = [
+    "src=192.168.1.10 dst_port=443 status=ALLOW",
+    "src=192.168.1.20 dst_port=53 status=ALLOW",
+    "src=192.168.1.30 dst_port=8443 status=ALLOW",
+]
+
+for log in traffic_logs:
+    log_dict = dict(re.findall(r'(\w+)=(\S+)', log))
+    
+    # [ 빈칸 A ]: log_dict에서 문자열 포트 'dst_port' 추출
+    port_str = log_dict['dst_port']
+    
+    # [ 빈칸 B ]: port_str을 숫자로 변환
+    port_num = int(port_str)
+    
+    # [ 빈칸 C ]: service_map에서 조회 (없으면 '기타/미식별')
+    service_name = service_map.get(port_num, '기타/미식별')
+    
+    print(f"목적지 포트: {port_num} | 식별 서비스: {service_name}")
