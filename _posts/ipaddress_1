@@ -1,0 +1,18 @@
+import ipaddress
+
+cidr_str = '172.16.50.0/26'
+net = ipaddress.ip_network(cidr_str)
+
+# [ 빈칸 A ]: 서브넷 마스크 속성
+mask = net.netmask
+
+# [ 빈칸 B ]: 브로드캐스트 주소 속성
+bcast = net.broadcast_address
+
+# [ 빈칸 C ]: 실제 할당 가능 호스트 수 계산 (전체 개수 - 2)
+usable_hosts = net.num_addresses - 2
+
+print(f'대역: {cidr_str}')
+print(f'넷마스크: {mask}')
+print(f'브로드캐스트: {bcast}')
+print(f'가용 호스트 수: {usable_hosts}개')
